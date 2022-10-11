@@ -4,16 +4,25 @@ export type Context = {
   readonly productModel: ProductModel
 }
 
+const res = Symbol("response")
+
+export type Source<TInner extends Record<string, unknown> = Record<string, unknown>> = {
+  [res]: TInner
+}
+
+const wrap = <TInner extends Record<string, unknown> = Record<string, unknown>>(response: TInner | null) =>
+  res ? { [res]: response } : null
+
 const ProductType = new GraphQLObjectType({
   name: "Product",
   fields: {
     id: {
       type: new GraphQLNonNull(GraphQLID),
-      resolve: (source: ProductFindByResult) => source.id,
+      resolve: (source: Source<ProductFindByResult>) => source[res].id,
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (source: ProductFindByResult) => source.name.toUpperCase(),
+      resolve: (source: Source<ProductFindByResult>) => source[res].name,
     },
   },
 })
@@ -28,7 +37,7 @@ const QueryType = new GraphQLObjectType({
         },
       },
       type: ProductType,
-      resolve: (_, args: { readonly id: string }, context: Context) => context.productModel.findBy(args.id),
+      resolve: (_, args: { readonly id: string }, context: Context) => context.productModel.findBy(args.id).then(wrap),
     },
   },
 })

@@ -1,15 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLString, GraphQLID } from "graphql"
-
-type ProductFindByResult = {
-  readonly id: string
-  readonly name: string
-}
-
-export class ProductModel {
-  async findBy(id: string): Promise<ProductFindByResult | null> {
-    throw new Error("To be implemented lator")
-  }
-}
+import { GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLString, GraphQLID, defaultFieldResolver } from "graphql"
 
 export type Context = {
   readonly productModel: ProductModel
@@ -20,9 +9,11 @@ const ProductType = new GraphQLObjectType({
   fields: {
     id: {
       type: new GraphQLNonNull(GraphQLID),
+      resolve: defaultFieldResolver,
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
+      resolve: defaultFieldResolver,
     },
   },
 })
@@ -46,3 +37,14 @@ export const createSchema = () =>
   new GraphQLSchema({
     query: QueryType,
   })
+
+type ProductFindByResult = {
+  readonly id: string
+  readonly name: string
+}
+
+export class ProductModel {
+  async findBy(id: string): Promise<ProductFindByResult | null> {
+    throw new Error("To be implemented lator")
+  }
+}

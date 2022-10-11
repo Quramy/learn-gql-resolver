@@ -1,16 +1,5 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLString, GraphQLID } from "graphql"
 
-type ProductFindByResult = {
-  readonly id: string
-  readonly name: string
-}
-
-export class ProductModel {
-  async findBy(id: string): Promise<ProductFindByResult | null> {
-    throw new Error("To be implemented lator")
-  }
-}
-
 export type Context = {
   readonly productModel: ProductModel
 }
@@ -42,3 +31,14 @@ export const createSchema = () =>
       },
     }),
   })
+
+type ProductFindByResult = {
+  readonly id: string
+  readonly name: string
+}
+
+export class ProductModel {
+  async findBy(id: string): Promise<ProductFindByResult | null> {
+    throw new Error("To be implemented lator")
+  }
+}

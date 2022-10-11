@@ -42,7 +42,7 @@ describe("schema", () => {
       await expect(subject()).resolves.toMatchObject({
         data: { hello: "WORLD" },
       })
-      expect(mockedHelloResolver).toBeCalled()
+      expect(mockedHelloResolver).toBeCalledTimes(1)
       expect(mockedGoodbyeResolver).not.toBeCalled()
     })
 
@@ -52,7 +52,7 @@ describe("schema", () => {
         data: { goodbye: "BYE BYE" },
       })
       expect(mockedHelloResolver).not.toBeCalled()
-      expect(mockedGoodbyeResolver).toBeCalled()
+      expect(mockedGoodbyeResolver).toBeCalledTimes(1)
     })
 
     it("should resolve both fields", async () => {
@@ -60,8 +60,8 @@ describe("schema", () => {
       await expect(subject()).resolves.toMatchObject({
         data: { hello: "WORLD", goodbye: "BYE BYE" },
       })
-      expect(mockedHelloResolver).toBeCalled()
-      expect(mockedGoodbyeResolver).toBeCalled()
+      expect(mockedHelloResolver).toBeCalledTimes(1)
+      expect(mockedGoodbyeResolver).toBeCalledTimes(1)
     })
   })
 })
