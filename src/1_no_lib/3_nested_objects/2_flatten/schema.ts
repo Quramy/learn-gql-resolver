@@ -1,4 +1,12 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLString, GraphQLID, defaultFieldResolver } from "graphql"
+import {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLList,
+  GraphQLString,
+  GraphQLID,
+  defaultFieldResolver,
+} from "graphql"
 
 export type Context = {
   readonly productModel: ProductModel
