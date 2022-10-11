@@ -1,10 +1,16 @@
+.git/
+node_modules/
 dist/
+lib/
 coverage/
 *.tsbuildinfo
 *.png
+*.jpg
+*.jpeg
+*.ico
 .gitignore
 .npmignore
-node_modules/
+.prettierignore
 *.sh
 *.log
 .env
