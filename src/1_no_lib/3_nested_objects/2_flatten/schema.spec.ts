@@ -21,11 +21,14 @@ describe("schema", () => {
 
   describe("execution", () => {
     let document: DocumentNode
+    let variableValues: Record<string, any> = {}
     const productModel = new ProductModel()
     const findBy = jest.spyOn(productModel, "findBy")
-    const subject = async () => await execute({ schema: createSchema(), document, contextValue: { productModel } })
+    const subject = async () =>
+      await execute({ schema: createSchema(), contextValue: { productModel }, document, variableValues })
 
     beforeEach(() => {
+      variableValues = {}
       findBy.mockClear()
     })
 
@@ -33,7 +36,8 @@ describe("schema", () => {
       beforeEach(() => findBy.mockResolvedValue({ id: "001", name: "product 001" }))
 
       it("should resolve product field with Product type object", async () => {
-        document = parse(`query { product(id: "001") { name } }`)
+        document = parse(`query ProductQuery($id: ID!) { product(id: $id) { name } }`)
+        variableValues = { id: "001" }
         await expect(subject()).resolves.toMatchObject({
           data: {
             product: { name: "product 001" },
@@ -47,7 +51,8 @@ describe("schema", () => {
       beforeEach(() => findBy.mockResolvedValue(null))
 
       it("should resolve product field as null", async () => {
-        document = parse(`query { product(id: "001") { name } }`)
+        document = parse(`query ProductQuery($id: ID!) { product(id: $id) { name } }`)
+        variableValues = { id: "001" }
         await expect(subject()).resolves.toMatchObject({
           data: {
             product: null,
@@ -58,3 +63,4 @@ describe("schema", () => {
     })
   })
 })
+

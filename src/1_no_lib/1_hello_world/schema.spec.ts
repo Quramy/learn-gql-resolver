@@ -1,4 +1,4 @@
-import { execute, parse, DocumentNode, printSchema, print } from "graphql"
+import { execute, parse, DocumentNode, printSchema, buildSchema, print, GraphQLError } from "graphql"
 
 import { createSchema } from "./schema"
 
@@ -24,5 +24,17 @@ describe("schema", () => {
         data: { hello: "world" },
       })
     })
+  })
+})
+
+describe("client schema", () => {
+  it("should resolve not field value but GraphQLError", async () => {
+    const SDLString = printSchema(createSchema())
+    const clientSchema = buildSchema(SDLString)
+    const subject = async () => await execute({ schema: clientSchema, document: parse(`query { hello }`) })
+    await expect(subject()).resolves.toMatchObject({
+      data: null,
+    })
+    expect((await subject()).errors?.[0]).toBeInstanceOf(GraphQLError)
   })
 })

@@ -17,6 +17,7 @@ describe("schema", () => {
 
   describe("execution", () => {
     let document: DocumentNode
+    let variableValues: Record<string, any> = {}
     const mockedHelloResolver = jest.fn(() => "WORLD")
     const mockedGoodbyeResolver = jest.fn(() => "BYE BYE")
 
@@ -27,9 +28,11 @@ describe("schema", () => {
           goodbyeResolver: mockedGoodbyeResolver,
         }),
         document,
+        variableValues,
       })
 
     beforeEach(() => {
+      variableValues = {}
       mockedHelloResolver.mockClear()
       mockedGoodbyeResolver.mockClear()
     })
