@@ -61,5 +61,23 @@ describe("schema", () => {
         expect(findBy).toBeCalledWith("001")
       })
     })
+
+    describe.each([
+      { kind: "value", property: "product 001" },
+      { kind: "function", property: () => "product 001" },
+      { kind: "async function", property: async () => "product 001" },
+    ])("when productModel produces $kind property", ({ property }) => {
+      beforeEach(() => findBy.mockResolvedValue({ id: "001", name: property as any }))
+
+      it("should resolve Product name field via defaultFieldResolver", async () => {
+        document = parse(`query ProductQuery($id: ID!) { product(id: $id) { name } }`)
+        variableValues = { id: "001" }
+        await expect(subject()).resolves.toMatchObject({
+          data: {
+            product: { name: "product 001" },
+          },
+        })
+      })
+    })
   })
 })
