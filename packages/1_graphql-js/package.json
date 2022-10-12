@@ -1,0 +1,12 @@
+{
+  "name": "1_graphql-js",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "test": "jest"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "graphql": "^16.6.0"
+  }
+}

@@ -1,4 +1,4 @@
-export default {
+export const configTemplate = {
   transform: {
     "^.+\\.(mc)?ts$": ["ts-jest", { diagnostics: false }],
   },
@@ -12,4 +12,8 @@ export default {
   collectCoverageFrom: ["test/**/*.?([mc])ts", "!test/**/*.test.*"],
   coverageReporters: ["json-summary", ["text", { skipFull: true }]],
   moduleFileExtensions: ["ts", "mts", "cts", "js", "mjs", "cjs", "json"],
+}
+
+export default {
+  projects: ["<rootDir>/packages/*"],
 }
