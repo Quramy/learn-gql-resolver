@@ -89,46 +89,6 @@ describe("schema", () => {
         )
       })
 
-      test("product", async () => {
-        document = gql`
-          query ProductQuery($id: ID!) {
-            product(id: $id) {
-              id
-            }
-          }
-        `
-        variableValues = { id: "001" }
-        await expect(subject()).resolves.toMatchObject({
-          data: { product: { id: "001" } },
-        })
-        expect(productFindBy).toBeCalledTimes(1)
-        expect(orderFetchAll).toBeCalledTimes(0)
-        expect(orderFindBy).toBeCalledTimes(0)
-      })
-
-      test("nested object", async () => {
-        document = gql`
-          query OrderQuery($id: ID!) {
-            order(id: $id) {
-              id
-              amount
-              product {
-                id
-                name
-              }
-            }
-          }
-        `
-        variableValues = { id: "order001" }
-        await expect(subject()).resolves.toMatchObject({
-          data: {
-            order: { product: { id: "001", name: "product 001" } },
-          },
-        })
-        expect(productFindBy).toBeCalledTimes(1)
-        expect(orderFindBy).toBeCalledTimes(1)
-      })
-
       test("object in list", async () => {
         document = gql`
           query OrdersQuery {
@@ -154,7 +114,7 @@ describe("schema", () => {
         expect(productFindBy).toBeCalledTimes(3)
       })
 
-      test("object in list", async () => {
+      test("list in list", async () => {
         document = gql`
           query ProductsOrdersQuery {
             allProducts {
