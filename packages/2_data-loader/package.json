@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "2_data-loader",
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "test": "jest"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dataloader": "2.1.0",
+    "graphql": "^16.6.0"
+  }
+}
